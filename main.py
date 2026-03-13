@@ -64,16 +64,16 @@ async def start(message: types.Message):
     inline = InlineKeyboardMarkup(
         inline_keyboard=[
             [InlineKeyboardButton(text="𝗠𝗔𝗞𝗧𝗔𝗕 𝗬𝗔𝗡𝗚𝗜𝗟𝗜𝗞𝗟𝗔𝗥𝗜 🗞️", url="https://t.me/pm_nam_imi")],
-            [InlineKeyboardButton(text="𝗗𝗔𝗦𝗧𝗨𝗥𝗖𝗛𝗜𝗚𝗔 𝗠𝗨𝗥𝗢𝗝𝗔𝗔𝗧 👨‍💻", url="https://t.me/saval_info_robot?start=1")]
+            [InlineKeyboardButton(text="𝗖𝗥𝗘𝗔𝗧𝗢𝗥𝗚𝗔 𝗠𝗨𝗥𝗢𝗝𝗔𝗔𝗧 👨‍💻", url="https://t.me/TeleFluss_bot")]
         ]
     )
 
     await message.answer(
-        "📮 𝗜𝘀𝗵𝗼𝗻𝗰𝗵 𝗾𝘂𝘁𝗶𝘀𝗶\n\nAriza yoki taklif yuborishingiz mumkin.\nAdminlar sizga javob yuborishadi.\n\nSizning shaxsingiz sir saqlanadi🤐",
+        "Bu bot orqali siz ariza yoki takliflaringizni yuborishingiz mumkin.\nAdminlar sizga javob yuborishadi.\n\nSizning shaxsingiz sir saqlanadi🤐\n\nPastadi 𝗜𝘀𝗵𝗼𝗻𝗰𝗵 𝗾𝘂𝘁𝗶𝘀𝗶 tugmasi ustiga bosing",
         reply_markup=keyboard
     )
 
-    await message.answer("Qo‘shimcha ma'lumot:", reply_markup=inline)
+    await message.answer("Qo‘shimcha ma'lumotlar uchun:", reply_markup=inline)
 
 @dp.message(F.text == "📮 𝗜𝗦𝗛𝗢𝗡𝗖𝗛 𝗤𝗨𝗧𝗜𝗦𝗜")
 async def trust_box(message: types.Message, state: FSMContext):
@@ -105,7 +105,7 @@ async def send_text(message: types.Message, state: FSMContext):
         resize_keyboard=True
     )
 
-    await message.answer("✅ Xabaringiz yuborildi", reply_markup=keyboard)
+    await message.answer("✅ Xabaringiz yuborildi. Tez orada javob xati keladi. Sizdan kutishingizni iltimos qilamiz", reply_markup=keyboard)
     await state.clear()
 
 @dp.message(F.chat.id == GROUP_ID, F.reply_to_message)
@@ -116,7 +116,7 @@ async def admin_reply(message: types.Message):
     if user_id:
         await bot.send_message(
             user_id,
-            f"📩 Sizning murojaatingizga javob\n\n👨‍💻 Admin:\n{message.text}"
+            f"{message.text}"
         )
         await message.reply("✅ Foydalanuvchiga yuborildi")
     else:
