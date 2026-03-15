@@ -17,9 +17,9 @@ from aiogram.types import (
 from fastapi import FastAPI
 import uvicorn
 
-BOT_TOKEN = "8397626217:AAGFjDQgLR_cgwCmtiuzYFmdBQ8EaE4Ru2E"
-GROUP_ID = -1003785280527
-ADMIN_ID = 8297497276
+BOT_TOKEN = "8618077281:AAGe32ooyqGZrPV1o3uu2XSt_Rm9TTL56ZA"
+GROUP_ID = -4827270328
+ADMIN_ID = 8223476380
 
 logging.basicConfig(level=logging.INFO)
 
@@ -64,7 +64,7 @@ async def start(message: types.Message):
     inline = InlineKeyboardMarkup(
         inline_keyboard=[
             [InlineKeyboardButton(text="𝗠𝗔𝗞𝗧𝗔𝗕 𝗬𝗔𝗡𝗚𝗜𝗟𝗜𝗞𝗟𝗔𝗥𝗜 🗞️", url="https://t.me/pm_nam_imi")],
-            [InlineKeyboardButton(text="𝗖𝗥𝗘𝗔𝗧𝗢𝗥𝗚𝗔 𝗠𝗨𝗥𝗢𝗝𝗔𝗔𝗧 👨‍💻", url="https://t.me/TeleFluss_bot")]
+            [InlineKeyboardButton(text="𝗖𝗥𝗘𝗔𝗧𝗢𝗥𝗚𝗔 𝗠𝗨𝗥𝗢𝗝𝗔𝗔𝗧 👨‍💻", url="https://t.me/recipient_robot")]
         ]
     )
 
