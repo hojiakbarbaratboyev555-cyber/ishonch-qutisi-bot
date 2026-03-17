@@ -72,7 +72,7 @@ async def start(message: types.Message):
     inline = InlineKeyboardMarkup(
         inline_keyboard=[
             [InlineKeyboardButton(text="𝗠𝗔𝗞𝗧𝗔𝗕 𝗬𝗔𝗡𝗚𝗜𝗟𝗜𝗞𝗟𝗔𝗥𝗜 🗞️", url="https://t.me/pm_nam_imi")],
-            [InlineKeyboardButton(text="𝗖𝗥𝗘𝗔𝗧𝗢𝗥𝗚𝗔 𝗠𝗨𝗥𝗢𝗝𝗔𝗔𝗧 👨‍💻", url="https://t.me/recipient_robot")]
+            [InlineKeyboardButton(text="𝗔𝗗𝗠𝗜𝗡𝗜𝗦𝗧𝗥𝗔𝗧𝗢𝗥𝗦 👨‍💻", url="https://t.me/axe_adm_bot")]
         ]
     )
 
