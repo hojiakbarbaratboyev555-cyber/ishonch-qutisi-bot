@@ -93,7 +93,7 @@ async def trust_box(message: types.Message, state: FSMContext):
     await state.set_state(TrustBox.waiting_for_message)
 
 
-@dp.message(TrustBox.waiting_for_message, F.text)
+@dp.message(TrustBox.waiting_for_message)
 async def send_text(message: types.Message, state: FSMContext):
     user_id = message.from_user.id
     now = time.time()
