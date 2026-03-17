@@ -1,4 +1,3 @@
-𝗛𝗼𝗷𝗶𝗮𝗸𝗯𝗮𝗿𝗶𝘆 🇸🇦:
 import asyncio
 import logging
 import json
