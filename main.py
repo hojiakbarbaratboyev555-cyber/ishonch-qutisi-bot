@@ -19,7 +19,7 @@ from aiogram.types import (
 from fastapi import FastAPI
 import uvicorn
 
-BOT_TOKEN = "8618077281:AAGe32ooyqGZrPV1o3uu2XSt_Rm9TTL56ZA"
+BOT_TOKEN = "8618077281:AAHeaQQPNc0y76kpmIqFmS1mo16Z-37UKwM"
 GROUP_ID = -1003874749853
 ADMIN_ID = 8223476380
 
