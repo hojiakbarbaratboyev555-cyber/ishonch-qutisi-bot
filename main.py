@@ -8,7 +8,7 @@ from fastapi import FastAPI
 import uvicorn
 import os
 
-BOT_TOKEN = "8642880674:AAErcK9ZsHkrKPVRd1_Ayj59MBnjjFjB4ho"
+BOT_TOKEN = "8618077281:AAHCUmkUf9g6ZG56QxSLLl5F27of4eLR_YY"
 GROUP_ID = -1003881398546  # Adminlar guruhi ID
 
 logging.basicConfig(level=logging.INFO)
