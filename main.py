@@ -68,7 +68,7 @@ async def start(message: types.Message, state: FSMContext):
 async def menu_handler(message: types.Message, state: FSMContext):
     text = message.text
 
-    if text == "🏫 Maktabimiz yangiliklari":
+    if text == "🏫 Maktabimiz haqida":
         await message.answer(
             "NAMANGAN SHAHAR 1-SON IXTISOSLASHTIRILGAN MAKTAB INTERNATI – KELAJAK TALABALARI MASKANI!\n\n2026-2027 o‘quv yili uchun \n\n🌟 Aniq va tabiiy fanlarga ixtisoslashgan maktab-internat 4- va 6-sinf bitiruvchilarini imtihonga taklif etadi!\n\n🎯 Maktab-internat afzalliklari: • Matematika, fizika, kimyo, biologiya va ingliz tili fanlari chuqurlashtirib o‘qitiladi\n• Zamonaviy jihozlangan fan laboratoriyalari\n• Malakali va fidoyi o‘qituvchilar\n• Darsdan tashqari to‘garaklar\n• Bepul yotoqxona\n• 5 mahal bepul ovqat\n• Muddatdan avval talabalik imkoniyati!\n\n🏆 OTMga kirish ko‘rsatkichlari:\n\n2023-yil bitiruvchilari: 100%\n(43 nafar – 25 ta grant, 18 ta kontrakt)\n\n2024-yil bitiruvchilari: 97%\n(69 nafar – 32 ta grant, 35 ta kontrakt)\n\n2025-yil bitiruvchilari: 100%\n(59 nafar – 30 ta grant, 29 ta kontrakt)\n\n🏫 Manzil: Namangan sh., Dashtbog‘ MFY, Sanoat ko‘chasi, 101-uy",
             reply_markup=types.InlineKeyboardMarkup(
@@ -81,7 +81,7 @@ async def menu_handler(message: types.Message, state: FSMContext):
 
     elif text == "📝 Ariza topshirish":
         await message.answer(
-            "🔰Namangan shahar 1-son ixtisoslashtirilgan maktab internatiga ariza topshirish onlayn tarzda amalga oshiriladi\n\n\n🔰Ariza toʻldirish qoidalari va shartlari bilan tanishib chiqing.\n\n\n🔰Namangan shahar 1-IMIga ariza topshirish 2026-yil 1-20-iyun kunlari amalga oshirilishi kutilmoqda\n\n\nAriza topshirish👇",
+            "📝Namangan shahar 1-son ixtisoslashtirilgan maktab internatiga ariza topshirish onlayn tarzda amalga oshiriladi\n\n🗒️Ariza toʻldirish qoidalari va shartlari bilan tanishib chiqing.\n\n📌Namangan shahar 1-IMIga ariza topshirish 2026-yil 1-20-iyun kunlari amalga oshirilishi kutilmoqda\n\nAriza berish👇",
             reply_markup=types.InlineKeyboardMarkup(
                 inline_keyboard=[
                     [types.InlineKeyboardButton(text="📝Ariza berish",
@@ -91,12 +91,12 @@ async def menu_handler(message: types.Message, state: FSMContext):
         )
 
     elif text == "📮 Ishonch qutisi":
-        await message.answer("📩 Habaringizni yuboring, adminlar siz bilan bogʻlanadi./n/nBilib qoʻying sizning shaxsingiz sir saqlanadi xech narsadan qoʻrqmang va fikringizni erkin bayon qiling")
+        await message.answer("📩 Habaringizni yuboring, adminlar siz bilan bogʻlanadi.\n\nBilib qoʻying sizning shaxsingiz sir saqlanadi 🤐\nXech narsadan qoʻrqmang va fikringizni erkin bayon qiling")
         await state.set_state(TrustBox.waiting_for_message)
 
     elif text == "👨‍💻 Adminlar bilan bogʻlanish":
         await message.answer(
-            "Adminga habar boʻlimi\n\nSiz bu boʻlim orqali bot haqida savollarga javob topishingiz mumkin\n\nPastdagi tugmadan foydalaning👇",
+            "ADMINGA HABAR BOʻLIMI\n\nSiz bu boʻlim orqali bot haqida savollarga javob topishingiz mumkin\n\nPastdagi tugmadan foydalaning👇",
             reply_markup=types.InlineKeyboardMarkup(
                 inline_keyboard=[
                     [types.InlineKeyboardButton(text="☎️Murojaat qilish",
