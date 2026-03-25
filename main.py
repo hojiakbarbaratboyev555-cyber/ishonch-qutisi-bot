@@ -25,7 +25,26 @@ class TrustBox(StatesGroup):
 # =======================
 # user mapping
 # =======================
-user_messages = {}
+MESSAGES_DB_FILE = "messages_db.json"
+
+def load_messages():
+    if os.path.exists(MESSAGES_DB_FILE):
+        with open(MESSAGES_DB_FILE, "r") as f:
+            return json.load(f)
+    return {}
+
+def save_messages(data):
+    with open(MESSAGES_DB_FILE, "w") as f:
+        json.dump(data, f)
+
+def add_link(msg_id, user_id):
+    data = load_messages()
+    data[str(msg_id)] = user_id
+    save_messages(data)
+
+def get_user(msg_id):
+    data = load_messages()
+    return data.get(str(msg_id))
 
 # =======================
 # menu
@@ -122,8 +141,7 @@ async def send_anonymous(message: types.Message, state: FSMContext):
         f"📮 Ishonch qutisi\n\n💬 {message.text}"
     )
 
-    user_messages[sent.message_id] = message.from_user.id
-
+    add_link(sent.message_id, message.from_user.id)
     await message.answer(
         "✅ Xabaringiz yuborildi\nAdmin javobini kuting",
         reply_markup=main_menu()
@@ -139,11 +157,10 @@ async def admin_reply(message: types.Message):
 
     replied_id = message.reply_to_message.message_id
 
-    if replied_id not in user_messages:
-        return
+    user_id = get_user(replied_id)
 
-    user_id = user_messages[replied_id]
-
+if not user_id:
+    return
     await bot.send_message(
         user_id,
         f"📩 Admin javobi:\n\n{message.text}"
