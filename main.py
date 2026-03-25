@@ -131,8 +131,11 @@ async def send_anonymous(message: types.Message, state: FSMContext):
 # =======================
 # admin reply
 # =======================
-@dp.message(F.chat.id == GROUP_ID, F.reply_to_message)
+@dp.message(F.chat.id == GROUP_ID)
 async def admin_reply(message: types.Message):
+
+    if not message.reply_to_message:
+        return
 
     replied_msg_id = message.reply_to_message.message_id
     user_id = user_messages.get(replied_msg_id)
@@ -142,10 +145,10 @@ async def admin_reply(message: types.Message):
             user_id,
             f"📩 Admin javobi:\n\n{message.text}"
         )
+
         await message.reply("✅")
     else:
         await message.reply("❌")
-
 # =======================
 # FastAPI
 # =======================
