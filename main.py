@@ -109,6 +109,7 @@ async def menu_handler(message: types.Message, state: FSMContext):
         )
 
 # =======================
+# =======================
 # anonim xabar
 # =======================
 @dp.message(TrustBox.waiting_for_message)
@@ -119,7 +120,8 @@ async def send_anonymous(message: types.Message, state: FSMContext):
         f"📮 Ishonch qutisi\n\n{message.text}"
     )
 
-    user_messages[sent.message_id] = message.from_user.id
+    # 🔴 MUHIM
+    user_messages[int(sent.message_id)] = int(message.from_user.id)
 
     await message.answer(
         "✅ Xabaringiz yuborildi\nAdmin javobini kuting",
@@ -128,27 +130,31 @@ async def send_anonymous(message: types.Message, state: FSMContext):
 
     await state.clear()
 
+
 # =======================
-# admin reply (FIX)
+# admin reply (100% working)
 # =======================
-@dp.message(F.chat.id == GROUP_ID, StateFilter(None))
+@dp.message()
 async def admin_reply(message: types.Message):
+
+    if message.chat.id != GROUP_ID:
+        return
 
     if not message.reply_to_message:
         return
 
-    replied_msg_id = message.reply_to_message.message_id
+    replied_msg_id = int(message.reply_to_message.message_id)
     user_id = user_messages.get(replied_msg_id)
 
-    if user_id:
-        await bot.send_message(
-            user_id,
-            f"📩 Admin javobi:\n\n{message.text}"
-        )
+    if not user_id:
+        return
 
-        await message.reply("✅")
-    else:
-        await message.reply("❌")
+    await bot.send_message(
+        user_id,
+        f"📩 Admin javobi:\n\n{message.text}"
+    )
+
+    await message.reply("✅")
 
 # =======================
 # FastAPI
