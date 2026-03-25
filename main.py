@@ -159,8 +159,9 @@ async def admin_reply(message: types.Message):
 
     user_id = get_user(replied_id)
 
-if not user_id:
-    return
+    if not user_id:
+        return
+
     await bot.send_message(
         user_id,
         f"📩 Admin javobi:\n\n{message.text}"
