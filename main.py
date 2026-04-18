@@ -125,7 +125,7 @@ async def menu_handler(message: types.Message, state: FSMContext):
     elif message.text == "👨‍💻 Adminlar bilan bogʻlanish":
         await message.answer_photo(
             photo=types.FSInputFile(IMAGE_ADMIN),
-            caption="👨‍💻 Adminlar bilan bogʻlanish\n\n☎️ Savollar uchun murojaat qiling",
+            caption="🔍Bu boʻlimda siz bot haqida savollarga botning yaratuvchilaridan javob olasiz\n📌❗Bot ishlamay qolsa ham shu yerga murojaat qiling. Shuning uchun ham bu botni yoʻqotib qoʻymang\n\n☎️Pastdagi tugma orqali davom eting",
             reply_markup=types.InlineKeyboardMarkup(
                 inline_keyboard=[[types.InlineKeyboardButton(text="☎️ Murojaat", url="https://t.me/HB7410_bot")]]
             )
@@ -144,7 +144,7 @@ async def send_anonymous(message: types.Message, state: FSMContext):
 
     add_link(sent.message_id, message.from_user.id)
 
-    await message.answer("✅ Xabaringiz yuborildi", reply_markup=main_menu())
+    await message.answer("✅ Xabaringiz yuborildi\n⏳Maktab javobini kuting", reply_markup=main_menu())
     await state.clear()
 
 # =======================
@@ -157,7 +157,7 @@ async def admin_reply(message: types.Message):
     user_id = get_user(replied_id)
 
     if user_id:
-        await bot.send_message(user_id, f"📩 Admin javobi:\n\n{message.text}")
+        await bot.send_message(user_id, f"📩 Admin javobi:\n\n💬  {message.text}")
         await message.reply("✅")
 
 # =======================
