@@ -8,7 +8,7 @@ from aiogram.filters import Command, StateFilter
 from aiogram.fsm.context import FSMContext
 from aiogram.fsm.state import State, StatesGroup
 from fastapi import FastAPI
-import uvicorn
+import unicorn
 
 # =======================
 # SOZLAMALAR
