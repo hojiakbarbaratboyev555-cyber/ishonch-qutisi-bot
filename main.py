@@ -13,7 +13,7 @@ from flask import Flask
 # ==========================================
 # 1. SOZLAMALAR
 # ==========================================
-BOT_TOKEN = "8760367023:AAFkPdKHuT9Vau8kL6BOwXyoD8GJv7iB94g"
+BOT_TOKEN = "8760367023:AAGrFIiDIwxGUGAelnkNqm4nVCcPgeeJMcE"
 GROUP_ID = -1003874749853
 MESSAGES_DB_FILE = "messages_db.json"
 
