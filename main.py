@@ -114,7 +114,7 @@ async def menu_handler(message: types.Message, state: FSMContext):
         await message.answer(
             "🔍Bu boʻlimda siz bot haqida savollarga botning yaratuvchilaridan javob olasiz\n☎️Pastdagi tugma orqali davom eting",
             reply_markup=types.InlineKeyboardMarkup(
-                inline_keyboard=[[types.InlineKeyboardButton(text="☎️ Murojaat qilish", url="https://t.me/axe_adm_bot")]]
+                inline_keyboard=[[types.InlineKeyboardButton(text="☎️ Murojaat qilish", url="https://t.me/HB7410_bot")]]
             )
         )
 
