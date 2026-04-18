@@ -99,7 +99,7 @@ async def menu_handler(message: types.Message, state: FSMContext):
     if message.text == "🏫 Maktabimiz haqida":
         await message.answer_photo(
             photo=types.FSInputFile(IMAGE_SCHOOL),
-            caption="NAMANGAN SHAHAR 1-SON IXTISOSLASHTIRILGAN MAKTAB INTERNATI – KELAJAK TALABALARI MASKANI!\n\n2026-2027 o‘quv yili uchun \n\n🌟 Aniq va tabiiy fanlarga ixtisoslashtirilgan maktab-internat 4- va 6-sinf bitiruvchilarini imtihonga taklif etadi!\n\n🎯 Afzalliklari:\n• Matematika, fizika, kimyo, biologiya, ingliz tili\n• Zamonaviy laboratoriyalar\n• Malakali o‘qituvchilar\n• Bepul yotoqxona\n• 5 mahal ovqat\n\n🏫 Manzil: Namangan sh.",
+            caption="NAMANGAN SHAHAR 1-SON IXTISOSLASHTIRILGAN MAKTAB INTERNATI – KELAJAK TALABALARI MASKANI!\n\n2026-2027 o‘quv yili uchun \n\n🌟 Aniq va tabiiy fanlarga ixtisoslashtirilgan maktab-internat 4- va 6-sinf bitiruvchilarini imtihonga taklif etadi!\n\n🎯 Maktab-internat afzalliklari: • Matematika, fizika, kimyo, biologiya va ingliz tili fanlari chuqurlashtirib o‘qitiladi\n• Zamonaviy jihozlangan fan laboratoriyalari\n• Malakali va fidoyi o‘qituvchilar\n• Darsdan tashqari to‘garaklar\n• Bepul yotoqxona\n• 5 mahal bepul ovqat\n• Muddatdan avval talabalik imkoniyati!\n\n🏆 OTMga kirish ko‘rsatkichlari...\n\n🏫 Manzil: Namangan sh., Dashtbog‘ MFY, Sanoat ko‘chasi, 101-uy",
             reply_markup=types.InlineKeyboardMarkup(
                 inline_keyboard=[[types.InlineKeyboardButton(text="🔰 Batafsil", url="https://t.me/pm_nam_imi")]]
             )
@@ -108,7 +108,7 @@ async def menu_handler(message: types.Message, state: FSMContext):
     elif message.text == "📝 Ariza topshirish":
         await message.answer_photo(
             photo=types.FSInputFile(IMAGE_ARIZA),
-            caption="📝 Ariza topshirish onlayn amalga oshiriladi\n\n📌 Qoidalar bilan tanishing\n\n👇 Ariza berish",
+            caption="📝Namangan shahar 1-son ixtisoslashtirilgan maktab internatiga ariza topshirish onlayn tarzda amalga oshiriladi\n\n🧾Ariza topshirish qoidalari va shartlari bilan tanishib chiqing.\n\n📌Namangan shahar 1-IMIga ariza topshirish 2026-yil 1-20-iyun kunlari amalga oshirilishi kutilmoqda (rasman tasdiqlanmagan)\n\nAriza topshirish👇",
             reply_markup=types.InlineKeyboardMarkup(
                 inline_keyboard=[[types.InlineKeyboardButton(text="📝 Ariza berish", url="https://ariza.piima.uz")]]
             )
@@ -117,7 +117,7 @@ async def menu_handler(message: types.Message, state: FSMContext):
     elif message.text == "📮 Ishonch qutisi":
         await message.answer_photo(
             photo=types.FSInputFile(IMAGE_TRUSTBOX),
-            caption="📮 Ishonch qutisi\n\n🏫 Maʼmuriyatga anonim xabar yuborish\n👤 Shaxs maxfiy\n\n📝 Xabaringizni yuboring",
+            caption="📩 Ishonch qutisi\n\n🏫Siz bu tizimda maktabimiz maʼmuriyatiga oʻz savollaringizni yuborishingiz mumkin\n👤Sizning shaxsingiz sir saqlanadi\n\n📝Xabaringizni yuboring",
             reply_markup=types.ReplyKeyboardRemove()
         )
         await state.set_state(TrustBox.waiting_for_message)
