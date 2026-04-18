@@ -1,4 +1,4 @@
 aiogram>=3.14
 flask
-gunicorn
+unicorn
 fastapi
