@@ -1,144 +1,179 @@
-import asyncio
+Import asyncio
 import logging
 import json
 import os
-from threading import Thread
 
 from aiogram import Bot, Dispatcher, types, F
 from aiogram.filters import Command, StateFilter
 from aiogram.fsm.context import FSMContext
 from aiogram.fsm.state import State, StatesGroup
-from flask import Flask
+from fastapi import FastAPI
+import uvicorn
 
-# ==========================================
-# 1. SOZLAMALAR
-# ==========================================
-BOT_TOKEN = "8760367023:AAGrFIiDIwxGUGAelnkNqm4nVCcPgeeJMcE"
+# =======================
+# SOZLAMALAR
+# =======================
+BOT_TOKEN = "8760367023:AAF77kDhiO9Up_WxTlZseiIR-Jh2b1Wv8SY"
 GROUP_ID = -1003874749853
 MESSAGES_DB_FILE = "messages_db.json"
 
-# Rasmlar
-SCHOOL_LOGO_URL = "https://r.jina.ai/i/06c2890526014e049195a63973942004"
-TRUST_BOX_URL = "https://r.jina.ai/i/0126569199324700994f326196232230"
-ADMIN_PHOTO_URL = "https://r.jina.ai/i/012111516244460023a131a424221151"
-APPLICATION_URL = "https://r.jina.ai/i/0222115622344700914f326196232230"
-
 logging.basicConfig(level=logging.INFO)
+
 bot = Bot(token=BOT_TOKEN)
 dp = Dispatcher()
 
+# =======================
+# FSM State
+# =======================
 class TrustBox(StatesGroup):
     waiting_for_message = State()
 
-# ==========================================
-# 2. MA'LUMOTLAR BAZASI
-# ==========================================
+# =======================
+# MA'LUMOTLAR BAZASI (JSON)
+# =======================
 def load_messages():
     if os.path.exists(MESSAGES_DB_FILE):
         try:
-            with open(MESSAGES_DB_FILE, "r") as f: return json.load(f)
-        except: return {}
+            with open(MESSAGES_DB_FILE, "r") as f:
+                return json.load(f)
+        except (json.JSONDecodeError, IOError):
+            return {}
     return {}
 
 def save_messages(data):
-    with open(MESSAGES_DB_FILE, "w") as f: json.dump(data, f, indent=4)
+    try:
+        with open(MESSAGES_DB_FILE, "w") as f:
+            json.dump(data, f, indent=4)
+    except IOError as e:
+        logging.error(f"Bazaga yozishda xatolik: {e}")
 
-# ==========================================
-# 3. KLAVIATURA (Tugmalar matniga aniqlik kiritildi)
-# ==========================================
+def add_link(msg_id, user_id):
+    data = load_messages()
+    data[str(msg_id)] = user_id
+    save_messages(data)
+
+def get_user(msg_id):
+    data = load_messages()
+    return data.get(str(msg_id))
+
+# =======================
+# MENU TUGMALARI
+# =======================
 def main_menu():
-    kb = [
-        [types.KeyboardButton(text="🏫 Maktabimiz haqida")],
-        [types.KeyboardButton(text="📝 Ariza topshirish"), types.KeyboardButton(text="📮 Ishonch qutisi")],
-        [types.KeyboardButton(text="👨‍💻 Adminlar bilan bogʻlanish")]
-    ]
-    return types.ReplyKeyboardMarkup(keyboard=kb, resize_keyboard=True)
+    return types.ReplyKeyboardMarkup(
+        keyboard=[
+            [types.KeyboardButton(text="🏫 Maktabimiz haqida")],
+            [
+                types.KeyboardButton(text="📝 Ariza topshirish"),
+                types.KeyboardButton(text="📮 Ishonch qutisi")
+            ],
+            [types.KeyboardButton(text="👨‍💻 Adminlar bilan bogʻlanish")]
+        ],
+        resize_keyboard=True
+    )
 
-# ==========================================
-# 4. HANDLERLAR
-# ==========================================
-
+# =======================
+# START KOMANDASI
+# =======================
 @dp.message(Command("start"))
 async def start(message: types.Message, state: FSMContext):
     await state.clear()
     await message.answer(
-        f"✨ Assalomu alaykum: {message.from_user.full_name}\nNamangan shahar 1-IMI botiga xush kelibsiz!", 
+        f"✨ Assalomu alaykum: {message.from_user.full_name}\n"
+        "🔰 Botimizga xush kelibsiz\n"
+        "👇 Kerakli bo‘limni tanlang",
         reply_markup=main_menu()
     )
 
-# Har bir tugma uchun alohida aniq handler
-@dp.message(F.text == "🏫 Maktabimiz haqida")
-async def about_school(message: types.Message):
-    caption = "🏢 **NAMANGAN SHAHAR 1-SON IMI**\n\n🎯 Aniq va tabiiy fanlar chuqurlashtirib o'qitiladi.\n🏫 Manzil: Namangan sh., Dashtbog‘ MFY, Sanoat ko'chasi, 101-uy"
-    await message.answer_photo(photo=SCHOOL_LOGO_URL, caption=caption, parse_mode="Markdown",
-        reply_markup=types.InlineKeyboardMarkup(inline_keyboard=[[types.InlineKeyboardButton(text="🔰 Kanalimiz", url="https://t.me/pm_nam_imi")]]))
+# =======================
+# MENU HANDLER
+# =======================
+@dp.message(StateFilter(None), F.text.in_({"🏫 Maktabimiz haqida", "📝 Ariza topshirish", "📮 Ishonch qutisi", "👨‍💻 Adminlar bilan bogʻlanish"}))
+async def menu_handler(message: types.Message, state: FSMContext):
+    if message.text == "🏫 Maktabimiz haqida":
+        await message.answer(
+            "NAMANGAN SHAHAR 1-SON IXTISOSLASHTIRILGAN MAKTAB INTERNATI – KELAJAK TALABALARI MASKANI!\n\n2026-2027 o‘quv yili uchun \n\n🌟 Aniq va tabiiy fanlarga ixtisoslashtirilgan maktab-internat 4- va 6-sinf bitiruvchilarini imtihonga taklif etadi!\n\n🎯 Maktab-internat afzalliklari: • Matematika, fizika, kimyo, biologiya va ingliz tili fanlari chuqurlashtirib o‘qitiladi\n• Zamonaviy jihozlangan fan laboratoriyalari\n• Malakali va fidoyi o‘qituvchilar\n• Darsdan tashqari to‘garaklar\n• Bepul yotoqxona\n• 5 mahal bepul ovqat\n• Muddatdan avval talabalik imkoniyati!\n\n🏆 OTMga kirish ko‘rsatkichlari...\n\n🏫 Manzil: Namangan sh., Dashtbog‘ MFY, Sanoat ko‘chasi, 101-uy",
+            reply_markup=types.InlineKeyboardMarkup(
+                inline_keyboard=[[types.InlineKeyboardButton(text="🔰 Batafsil", url="https://t.me/pm_nam_imi")]]
+            )
+        )
+    elif message.text == "📝 Ariza topshirish":
+        await message.answer(
+            "📝Namangan shahar 1-son ixtisoslashtirilgan maktab internatiga ariza topshirish onlayn tarzda amalga oshiriladi\n\n🧾Ariza topshirish qoidalari va shartlari bilan tanishib chiqing.\n\n📌Namangan shahar 1-IMIga ariza topshirish 2026-yil 1-20-iyun kunlari amalga oshirilishi kutilmoqda (rasman tasdiqlanmagan)\n\nAriza topshirish👇",
+            reply_markup=types.InlineKeyboardMarkup(
+                inline_keyboard=[[types.InlineKeyboardButton(text="📝 Ariza berish", url="https://ariza.piima.uz")]]
+            )
+        )
+    elif message.text == "📮 Ishonch qutisi":
+        await message.answer(
+            "📩 Ishonch qutisi\n\n🏫Siz bu tizimda maktabimiz maʼmuriyatiga oʻz savollaringizni yuborishingiz mumkin\n👤Sizning shaxsingiz sir saqlanadi\n\n📝Xabaringizni yuboring",
+            reply_markup=types.ReplyKeyboardRemove()
+        )
+        await state.set_state(TrustBox.waiting_for_message)
+    elif message.text == "👨‍💻 Adminlar bilan bogʻlanish":
+        await message.answer(
+            "🔍Bu boʻlimda siz bot haqida savollarga botning yaratuvchilaridan javob olasiz\n☎️Pastdagi tugma orqali davom eting",
+            reply_markup=types.InlineKeyboardMarkup(
+                inline_keyboard=[[types.InlineKeyboardButton(text="☎️ Murojaat qilish", url="https://t.me/axe_adm_bot")]]
+            )
+        )
 
-@dp.message(F.text == "📮 Ishonch qutisi")
-async def trust_box(message: types.Message, state: FSMContext):
-    caption = "📩 **Ishonch qutisi**\n\n🏫 Maktab maʼmuriyatiga oʻz savollaringizni yuboring.\n👤 Shaxsingiz sir saqlanadi.\n\n📝 **Xabaringizni yozing:**"
-    await message.answer_photo(photo=TRUST_BOX_URL, caption=caption, parse_mode="Markdown", reply_markup=types.ReplyKeyboardRemove())
-    await state.set_state(TrustBox.waiting_for_message)
-
-@dp.message(F.text == "📝 Ariza topshirish")
-async def application(message: types.Message):
-    caption = "📝 **Onlayn ariza topshirish**\n\nQabul iyun oyida boshlanishi kutilmoqda.\n\n👇 **Portalga o'tish:**"
-    await message.answer_photo(photo=APPLICATION_URL, caption=caption, parse_mode="Markdown",
-        reply_markup=types.InlineKeyboardMarkup(inline_keyboard=[[types.InlineKeyboardButton(text="📝 Ariza berish", url="https://ariza.piima.uz")]]))
-
-@dp.message(F.text == "👨‍💻 Adminlar bilan bogʻlanish")
-async def contact_admin(message: types.Message):
-    caption = "👨‍💻 **Adminlar bilan bog'lanish**\n\nSavollaringiz bo'lsa, adminlarimizga murojaat qiling.\n\n☎️ **Murojaat uchun:**"
-    await message.answer_photo(photo=ADMIN_PHOTO_URL, caption=caption, parse_mode="Markdown",
-        reply_markup=types.InlineKeyboardMarkup(inline_keyboard=[[types.InlineKeyboardButton(text="☎️ Admin", url="https://t.me/axe_adm_bot")]]))
-
-# Xabar yuborish jarayoni
+# =======================
+# ISHONCH QUTISI (XABAR YUBORISH)
+# =======================
 @dp.message(TrustBox.waiting_for_message)
 async def send_anonymous(message: types.Message, state: FSMContext):
     if not message.text:
-        await message.answer("⚠️ Iltimos, faqat matn yuboring.")
+        await message.answer("Iltimos, faqat matnli xabar yuboring.")
         return
-    sent = await bot.send_message(GROUP_ID, f"📮 #Ishonch_qutisi\n\n💬 {message.text}")
-    data = load_messages()
-    data[str(sent.message_id)] = message.from_user.id
-    save_messages(data)
-    await message.answer("✅ Xabaringiz yuborildi.", reply_markup=main_menu())
+
+    # Guruhga yuborish
+    sent = await bot.send_message(
+        GROUP_ID,
+        f"📮 #Ishonch_qutisi\n\n💬 {message.text}"
+    )
+
+    # Xabar ID va foydalanuvchi ID sini bog'lab saqlash
+    add_link(sent.message_id, message.from_user.id)
+    
+    await message.answer("✅ Xabaringiz yuborildi. Admin javobini kuting.", reply_markup=main_menu())
     await state.clear()
 
-# Admin javobi
+# =======================
+# ADMIN JAVOBI (GURUHDA REPLY QILINSA)
+# =======================
 @dp.message(F.chat.id == GROUP_ID, F.reply_to_message)
 async def admin_reply(message: types.Message):
-    data = load_messages()
-    user_id = data.get(str(message.reply_to_message.message_id))
+    # Reply qilingan xabarning ID sini olish
+    replied_id = message.reply_to_message.message_id
+    
+    # Bazadan ushbu xabarni yuborgan foydalanuvchini topish
+    user_id = get_user(replied_id)
+
     if user_id:
         try:
-            await bot.send_message(user_id, f"📩 **Admin javobi:**\n\n{message.text}", parse_mode="Markdown")
-            await message.reply("✅ Yuborildi")
-        except:
-            await message.reply("❌ Xato: Foydalanuvchi botni bloklagan bo'lishi mumkin.")
+            await bot.send_message(
+                chat_id=user_id,
+                text=f"📩 Admin javobi:\n\n{message.text}"
+            )
+            await message.reply("✅")
+        except Exception as e:
+            logging.error(f"Xabar yuborishda xatolik: {e}")
 
-# ==========================================
-# 5. RENDER UCHUN WEB SERVER
-# ==========================================
-server = Flask('')
+# =======================
+# FastAPI & RUN
+# =======================
+app = FastAPI()
 
-@server.route('/')
-def home():
-    return "Bot is running!"
-
-def run_server():
-    port = int(os.environ.get("PORT", 10000))
-    server.run(host='0.0.0.0', port=port)
-
-def keep_alive():
-    Thread(target=run_server).start()
-
-# ==========================================
-# 6. ASOSIY ISHGA TUSHIRISH
-# ==========================================
-async def main():
+@app.on_event("startup")
+async def on_startup():
     await bot.delete_webhook(drop_pending_updates=True)
-    await dp.start_polling(bot)
+    asyncio.create_task(dp.start_polling(bot))
+
+@app.get("/")
+def home():
+    return {"status": "Bot ishlayapti"}
 
 if __name__ == "__main__":
-    keep_alive()
-    asyncio.run(main())
+    port = int(os.environ.get("PORT", 10000))
+    uvicorn.run(app, host="0.0.0.0", port=port)
