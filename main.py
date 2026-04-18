@@ -13,7 +13,7 @@ import uvicorn
 # =======================
 # SOZLAMALAR
 # =======================
-BOT_TOKEN = "8760367023:AAECwfHVhkZBKWuts6A1mYz2wbjbwoKqe40"
+BOT_TOKEN = "8760367023:AAFkPdKHuT9Vau8kL6BOwXyoD8GJv7iB94g"
 GROUP_ID = -1003874749853
 MESSAGES_DB_FILE = "messages_db.json"
 
