@@ -7,15 +7,23 @@ from aiogram import Bot, Dispatcher, types, F
 from aiogram.filters import Command, StateFilter
 from aiogram.fsm.context import FSMContext
 from aiogram.fsm.state import State, StatesGroup
-from fastapi import FastAPI
+from aiogram.types import Update
+
+from fastapi import FastAPI, Request
 import uvicorn
 
 # =======================
 # SOZLAMALAR
 # =======================
-BOT_TOKEN = "8760367023:AAGw4GT5skg_0eDV-BP0VUS1yGfCLsLOWeA"
+BOT_TOKEN = "8760367023:AAG6c9t11ghRC-QotfurmhGdXir7KLueu5s"
+WEBHOOK_HOST = "https://ishonch-qutisi-bot.onrender.com"
+WEBHOOK_PATH = f"/webhook/{BOT_TOKEN}"
+WEBHOOK_URL = f"{WEBHOOK_HOST}{WEBHOOK_PATH}"
+
 GROUP_ID = -1003874749853
 MESSAGES_DB_FILE = "messages_db.json"
+
+PORT = int(os.environ.get("PORT", 10000))
 
 logging.basicConfig(level=logging.INFO)
 
@@ -93,18 +101,13 @@ async def start(message: types.Message, state: FSMContext):
 # =======================
 # MENU HANDLER
 # =======================
-@dp.message(StateFilter(None), F.text.in_({
-    "🏫 Maktabimiz haqida",
-    "📝 Ariza topshirish",
-    "📮 Ishonch qutisi",
-    "👨‍💻 Adminlar bilan bogʻlanish"
-}))
+@dp.message(StateFilter(None), F.text.in_({"🏫 Maktabimiz haqida", "📝 Ariza topshirish", "📮 Ishonch qutisi", "👨‍💻 Adminlar bilan bogʻlanish"}))
 async def menu_handler(message: types.Message, state: FSMContext):
 
     if message.text == "🏫 Maktabimiz haqida":
         await message.answer_photo(
             photo=types.FSInputFile(IMAGE_SCHOOL),
-            caption="NAMANGAN SHAHAR 1-SON IXTISOSLASHTIRILGAN MAKTAB INTERNATI – KELAJAK TALABALARI MASKANI!\n\n2026-2027 o‘quv yili uchun \n\n🌟 Aniq va tabiiy fanlarga ixtisoslashtirilgan maktab-internat 4- va 6-sinf bitiruvchilarini imtihonga taklif etadi!\n\n🎯 Maktab-internat afzalliklari: • Matematika, fizika, kimyo, biologiya va ingliz tili fanlari chuqurlashtirib o‘qitiladi\n• Zamonaviy jihozlangan fan laboratoriyalari\n• Malakali va fidoyi o‘qituvchilar\n• Darsdan tashqari to‘garaklar\n• Bepul yotoqxona\n• 5 mahal bepul ovqat\n• Muddatdan avval talabalik imkoniyati!\n\n🏆 OTMga kirish ko‘rsatkichlari...\n\n🏫 Manzil: Namangan sh., Dashtbog‘ MFY, Sanoat ko‘chasi, 101-uy",
+            caption="NAMANGAN SHAHAR 1-SON IXTISOSLASHTIRILGAN MAKTAB INTERNATI – KELAJAK TALABALARI MASKANI!\n\n2026-2027 o‘quv yili uchun \n\n🌟 Aniq va tabiiy fanlarga ixtisoslashtirilgan maktab-internat 4- va 6-sinf bitiruvchilarini imtihonga taklif etadi!\n\n🎯 Maktab-internat afzalliklari:\n• Matematika, fizika, kimyo, biologiya va ingliz tili fanlari chuqurlashtirib o‘qitiladi\n• Zamonaviy jihozlangan fan laboratoriyalari\n• Malakali va fidoyi o‘qituvchilar\n• Darsdan tashqari to‘garaklar\n• Bepul yotoqxona\n• 5 mahal bepul ovqat\n• Muddatdan avval talabalik imkoniyati!\n\n🏆 OTMga kirish ko‘rsatkichlari yuqori\n\n🏫 Manzil: Namangan sh., Dashtbog‘ MFY, Sanoat ko‘chasi, 101-uy",
             reply_markup=types.InlineKeyboardMarkup(
                 inline_keyboard=[[types.InlineKeyboardButton(text="🔰 Batafsil", url="https://t.me/pm_nam_imi")]]
             )
@@ -113,7 +116,7 @@ async def menu_handler(message: types.Message, state: FSMContext):
     elif message.text == "📝 Ariza topshirish":
         await message.answer_photo(
             photo=types.FSInputFile(IMAGE_ARIZA),
-            caption="📝Namangan shahar 1-son ixtisoslashtirilgan maktab internatiga ariza topshirish onlayn tarzda amalga oshiriladi\n\n🧾Ariza topshirish qoidalari va shartlari bilan tanishib chiqing.\n\n📌Namangan shahar 1-IMIga ariza topshirish 2026-yil 1-20-iyun kunlari amalga oshirilishi kutilmoqda (rasman tasdiqlanmagan)\n\nAriza topshirish👇",
+            caption="📝 Namangan shahar 1-son ixtisoslashtirilgan maktab internatiga ariza topshirish onlayn tarzda amalga oshiriladi\n\n🧾 Ariza topshirish qoidalari va shartlari bilan tanishib chiqing.\n\n📌 Namangan shahar 1-IMIga ariza topshirish 2026-yil 1-20-iyun kunlari amalga oshirilishi kutilmoqda (rasman tasdiqlanmagan)\n\nAriza topshirish👇",
             reply_markup=types.InlineKeyboardMarkup(
                 inline_keyboard=[[types.InlineKeyboardButton(text="📝 Ariza berish", url="https://ariza.piima.uz")]]
             )
@@ -122,7 +125,7 @@ async def menu_handler(message: types.Message, state: FSMContext):
     elif message.text == "📮 Ishonch qutisi":
         await message.answer_photo(
             photo=types.FSInputFile(IMAGE_TRUSTBOX),
-            caption="📩 Ishonch qutisi\n\n🏫Siz bu tizimda maktabimiz maʼmuriyatiga oʻz savollaringizni yuborishingiz mumkin\n👤Sizning shaxsingiz sir saqlanadi\n\n📝Xabaringizni yuboring",
+            caption="📩 Ishonch qutisi\n\n🏫 Siz bu tizimda maktabimiz maʼmuriyatiga oʻz savollaringizni yuborishingiz mumkin\n👤 Sizning shaxsingiz sir saqlanadi\n\n📝 Xabaringizni yuboring",
             reply_markup=types.ReplyKeyboardRemove()
         )
         await state.set_state(TrustBox.waiting_for_message)
@@ -130,7 +133,7 @@ async def menu_handler(message: types.Message, state: FSMContext):
     elif message.text == "👨‍💻 Adminlar bilan bogʻlanish":
         await message.answer_photo(
             photo=types.FSInputFile(IMAGE_ADMIN),
-            caption="🔍Bu boʻlimda siz bot haqida savollarga botning yaratuvchilaridan javob olasiz\n📌❗Bot ishlamay qolsa ham shu yerga murojaat qiling. Shuning uchun ham bu botni yoʻqotib qoʻymang\n\n☎️Pastdagi tugma orqali davom eting",
+            caption="🔍 Bu boʻlimda siz bot haqida savollarga botning yaratuvchilaridan javob olasiz\n📌 ❗ Bot ishlamay qolsa ham shu yerga murojaat qiling. Shuning uchun ham bu botni yoʻqotib qoʻymang\n\n☎️ Pastdagi tugma orqali davom eting",
             reply_markup=types.InlineKeyboardMarkup(
                 inline_keyboard=[[types.InlineKeyboardButton(text="☎️ Murojaat", url="https://t.me/HB7410_bot")]]
             )
@@ -149,7 +152,10 @@ async def send_anonymous(message: types.Message, state: FSMContext):
 
     add_link(sent.message_id, message.from_user.id)
 
-    await message.answer("✅ Xabaringiz yuborildi\n⏳Maktab javobini kuting", reply_markup=main_menu())
+    await message.answer(
+        "✅ Xabaringiz yuborildi\n⏳ Maktab javobini kuting",
+        reply_markup=main_menu()
+    )
     await state.clear()
 
 # =======================
@@ -162,40 +168,31 @@ async def admin_reply(message: types.Message):
     user_id = get_user(replied_id)
 
     if user_id:
-        await bot.send_message(user_id, f"📩 Admin javobi:\n\n💬  {message.text}")
+        await bot.send_message(user_id, f"📩 Admin javobi:\n\n💬 {message.text}")
         await message.reply("✅")
 
 # =======================
-# FASTAPI
+# FASTAPI (WEBHOOK)
 # =======================
 app = FastAPI()
 
+@app.on_event("startup")
+async def startup():
+    await bot.set_webhook(WEBHOOK_URL)
+
+@app.post(WEBHOOK_PATH)
+async def webhook(request: Request):
+    data = await request.json()
+    update = Update.model_validate(data)
+    await dp.feed_update(bot, update)
+    return {"ok": True}
+
 @app.get("/")
-def home():
+async def home():
     return {"status": "Bot ishlayapti"}
 
 # =======================
-# BOT LOOP
+# RUN
 # =======================
-async def run_bot():
-    while True:
-        try:
-            await bot.delete_webhook(drop_pending_updates=True)
-            await dp.start_polling(bot)
-        except Exception as e:
-            logging.error(f"Bot crash: {e}")
-            await asyncio.sleep(5)
-
-async def main():
-    port = int(os.environ.get("PORT", 10000))
-
-    config = uvicorn.Config(app, host="0.0.0.0", port=port)
-    server = uvicorn.Server(config)
-
-    await asyncio.gather(
-        run_bot(),
-        server.serve()
-    )
-
 if __name__ == "__main__":
-    asyncio.run(main())
+    uvicorn.run(app, host="0.0.0.0", port=PORT)
