@@ -116,10 +116,7 @@ async def menu_handler(message: types.Message, state: FSMContext):
     elif message.text == "📝 Ariza topshirish":
         await message.answer_photo(
             photo=types.FSInputFile(IMAGE_ARIZA),
-            caption="📝 Namangan shahar 1-son ixtisoslashtirilgan maktab internatiga ariza topshirish onlayn tarzda amalga oshiriladi\n\n🧾 Ariza topshirish qoidalari va shartlari bilan tanishib chiqing.\n\n📌 Namangan shahar 1-IMIga ariza topshirish 2026-yil 1-20-iyun kunlari amalga oshirilishi kutilmoqda (rasman tasdiqlanmagan)\n\nAriza topshirish👇",
-            reply_markup=types.InlineKeyboardMarkup(
-                inline_keyboard=[[types.InlineKeyboardButton(text="📝 Ariza berish", url="https://ariza.piima.uz")]]
-            )
+            caption="📣DIQQAT, E'LON!\n🏢Ixtisoslashtirilgan ta'lim muassasalari agentligi tizimidagi barcha maktablar, shu jumladan Namangan shahar 1-son  ixtisoslashtirilgan maktab-internatiga 2026-2027 o'quv yili uchun qabul boshlanmoqda! \n☎️ Namangan shahar 1-son  ixtisoslashtirilgan maktab-internatida 1-15-mayga qadar "MUROJAATLAR MARKAZI" kelib o'zingizni qiziqtirgan savollarga javob olishingiz mumkin.\n📅  Hujjatlar 15-maydan 4-iyungacha my.gov.uz va ariza.piima.uz sahifasi orqali onlayn qabul qilinadi.\nMa'lumot o'rnida yangi o'quv yiliga maktab uchun qabul quyidagi sinflar kesimida bo'ladi:\n✅5-sinf (aniq fanlar) uchun 2 ta sinf; har bir sinfga 24 nafar\n✅7-sinf (tabiiy fanlar) uchun; 1 ta sinf  24 nafar\n✅10-sinf (aniq fanlar) uchun; 5 bo'sh o'rin\n✅10-sinf (tabiiy fanlar) uchun; 4 bo'sh o'rin\nJarayon bo'yicha o'zingizni qiziqtirgan savollar bilan quyidagi manzilga murojaat qilishingiz mumkin: \nt.me/Namangan_1_imi_qabul_2026\nMurojaatlar markazi telefon raqamlari: \n+998932644000\n+998939273194",
         )
 
     elif message.text == "📮 Ishonch qutisi":
