@@ -35,7 +35,7 @@ dp = Dispatcher()
 # =======================
 IMAGE_TRUSTBOX = "1776531646947.png"
 IMAGE_ADMIN = "file_000000005eb872439ca0c31a72a81d4f.png"
-IMAGE_ARIZA = "ariza.piima_.uz-qabul-2023-onlayn-ariza-topshirish-yoriqnoma.png"
+IMAGE_ARIZA = "IMG_20260502_164937_557.jpg"
 IMAGE_SCHOOL = "1776531637585.png"
 
 # =======================
