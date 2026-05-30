@@ -92,10 +92,11 @@ def main_menu():
 async def start(message: types.Message, state: FSMContext):
     await state.clear()
     await message.answer(
-        f"✨ Assalomu alaykum: {message.from_user.full_name}\n"
-        "🔰 Botimizga xush kelibsiz\n"
-        "👇 Kerakli bo‘limni tanlang",
-        reply_markup=main_menu()
+        f"<tg-emoji emoji-id='5472164874886846699'>✨</tg-emoji> Assalomu alaykum: {message.from_user.full_name}\n"
+        "<tg-emoji emoji-id='5258093637450866522'>🔰</tg-emoji> Botimizga xush kelibsiz\n"
+        "👇 Kerakli bo'limni tanlang",
+        reply_markup=main_menu(),
+        parse_mode="HTML"
     )
 
 # =======================
@@ -107,33 +108,37 @@ async def menu_handler(message: types.Message, state: FSMContext):
     if message.text == "🏫 Maktabimiz haqida":
         await message.answer_photo(
             photo=types.FSInputFile(IMAGE_SCHOOL),
-            caption="NAMANGAN SHAHAR 1-SON IXTISOSLASHTIRILGAN MAKTAB INTERNATI – KELAJAK TALABALARI MASKANI!\n\n2026-2027 o‘quv yili uchun \n\n🌟 Aniq va tabiiy fanlarga ixtisoslashtirilgan maktab-internat 4- va 6-sinf bitiruvchilarini imtihonga taklif etadi!\n\n🎯 Maktab-internat afzalliklari:\n• Matematika, fizika, kimyo, biologiya va ingliz tili fanlari chuqurlashtirib o‘qitiladi\n• Zamonaviy jihozlangan fan laboratoriyalari\n• Malakali va fidoyi o‘qituvchilar\n• Darsdan tashqari to‘garaklar\n• Bepul yotoqxona\n• 5 mahal bepul ovqat\n• Muddatdan avval talabalik imkoniyati!\n\n🏆 OTMga kirish ko‘rsatkichlari yuqori\n\n🏫 Manzil: Namangan sh., Dashtbog‘ MFY, Sanoat ko‘chasi, 101-uy",
+            caption="NAMANGAN SHAHAR 1-SON IXTISOSLASHTIRILGAN MAKTAB INTERNATI – KELAJAK TALABALARI MASKANI!\n\n2026-2027 o'quv yili uchun \n\n🌟 Aniq va tabiiy fanlarga ixtisoslashtirilgan maktab-internat 4- va 6-sinf bitiruvchilarini imtihonga taklif etadi!\n\n🎯 Maktab-internat afzalliklari:\n• Matematika, fizika, kimyo, biologiya va ingliz tili fanlari chuqurlashtirib o'qitiladi\n• Zamonaviy jihozlangan fan laboratoriyalari\n• Malakali va fidoyi o'qituvchilar\n• Darsdan tashqari to'garaklar\n• Bepul yotoqxona\n• 5 mahal bepul ovqat\n• Muddatdan avval talabalik imkoniyati!\n\n🏆 OTMga kirish ko'rsatkichlari yuqori\n\n<tg-emoji emoji-id='5265002646397285605'>🏫</tg-emoji> Manzil: Namangan sh., Dashtbog' MFY, Sanoat ko'chasi, 101-uy",
             reply_markup=types.InlineKeyboardMarkup(
                 inline_keyboard=[[types.InlineKeyboardButton(text="🔰 Batafsil", url="https://t.me/pm_nam_imi")]]
-            )
+            ),
+            parse_mode="HTML"
         )
 
     elif message.text == "📝 Ariza topshirish":
         await message.answer_photo(
             photo=types.FSInputFile(IMAGE_ARIZA),
-            caption="📣DIQQAT, E'LON!\n\n🏢Ixtisoslashtirilgan ta'lim muassasalari agentligi tizimidagi barcha maktablar, shu jumladan Namangan shahar 1-son  ixtisoslashtirilgan maktab-internatiga 2026-2027 o'quv yili uchun qabul boshlanmoqda!\n\n☎️ Namangan shahar 1-son  ixtisoslashtirilgan maktab-internatida 1-15-mayga qadar MUROJAATLAR MARKAZI kelib o'zingizni qiziqtirgan savollarga javob olishingiz mumkin.\n\n📅  Hujjatlar 15-maydan 4-iyungacha my.gov.uz va ariza.piima.uz sahifasi orqali onlayn qabul qilinadi.\n\nMa'lumot o'rnida yangi o'quv yiliga maktab uchun qabul quyidagi sinflar kesimida bo'ladi:\n✅5-sinf (aniq fanlar) uchun 2 ta sinf; har bir sinfga 24 nafar\n✅7-sinf (tabiiy fanlar) uchun; 1 ta sinf  24 nafar\n✅10-sinf (aniq fanlar) uchun; 5 bo'sh o'rin\n✅10-sinf (tabiiy fanlar) uchun; 4 bo'sh o'rin\n\nJarayon bo'yicha o'zingizni qiziqtirgan savollar bilan quyidagi manzilga murojaat qilishingiz mumkin: \nt.me/Namangan_1_imi_qabul_2026\n\nMurojaatlar markazi telefon raqamlari: \n+998932644000\n+998939273194",
+            caption="<tg-emoji emoji-id='5260268501515377807'>📣</tg-emoji>DIQQAT, E'LON!\n\n<tg-emoji emoji-id='5265002646397285605'>🏫</tg-emoji>Ixtisoslashtirilgan ta'lim muassasalari agentligi tizimidagi barcha maktablar, shu jumladan Namangan shahar 1-son  ixtisoslashtirilgan maktab-internatiga 2026-2027 o'quv yili uchun qabul boshlanmoqda!\n\n<tg-emoji emoji-id='5258513401784573443'>☎️</tg-emoji> Namangan shahar 1-son  ixtisoslashtirilgan maktab-internatida 1-15-mayga qadar MUROJAATLAR MARKAZI kelib o'zingizni qiziqtirgan savollarga javob olishingiz mumkin.\n\n<tg-emoji emoji-id='5282843764451195532'>📅</tg-emoji>  Hujjatlar 15-maydan 4-iyungacha my.gov.uz va ariza.piima.uz sahifasi orqali onlayn qabul qilinadi.\n\nMa'lumot o'rnida yangi o'quv yiliga maktab uchun qabul quyidagi sinflar kesimida bo'ladi:\n<tg-emoji emoji-id='5893224751119208859'>✅</tg-emoji>5-sinf (aniq fanlar) uchun 2 ta sinf; har bir sinfga 24 nafar\n<tg-emoji emoji-id='5893224751119208859'>✅</tg-emoji>7-sinf (tabiiy fanlar) uchun; 1 ta sinf  24 nafar\n<tg-emoji emoji-id='5893224751119208859'>✅</tg-emoji>10-sinf (aniq fanlar) uchun; 5 bo'sh o'rin\n<tg-emoji emoji-id='5893224751119208859'>✅</tg-emoji>10-sinf (tabiiy fanlar) uchun; 4 bo'sh o'rin\n\nJarayon bo'yicha o'zingizni qiziqtirgan savollar bilan quyidagi manzilga murojaat qilishingiz mumkin: \nt.me/Namangan_1_imi_qabul_2026\n\nMurojaatlar markazi telefon raqamlari: \n+998932644000\n+998939273194",
+            parse_mode="HTML"
         )
 
     elif message.text == "📮 Ishonch qutisi":
         await message.answer_photo(
             photo=types.FSInputFile(IMAGE_TRUSTBOX),
-            caption="📩 Ishonch qutisi\n\n🏫 Siz bu tizimda maktabimiz maʼmuriyatiga oʻz savollaringizni yuborishingiz mumkin\n👤 Sizning shaxsingiz sir saqlanadi\n\n📝 Xabaringizni yuboring",
-            reply_markup=types.ReplyKeyboardRemove()
+            caption="<tg-emoji emoji-id='5467582660178091092'>📩</tg-emoji> Ishonch qutisi\n\n<tg-emoji emoji-id='5265002646397285605'>🏫</tg-emoji> Siz bu tizimda maktabimiz maʼmuriyatiga oʻz savollaringizni yuborishingiz mumkin\n<tg-emoji emoji-id='5373012449597335010'>👤</tg-emoji> Sizning shaxsingiz sir saqlanadi\n\n<tg-emoji emoji-id='5258260149037965799'>📝</tg-emoji> Xabaringizni yuboring",
+            reply_markup=types.ReplyKeyboardRemove(),
+            parse_mode="HTML"
         )
         await state.set_state(TrustBox.waiting_for_message)
 
     elif message.text == "👨‍💻 Adminlar bilan bogʻlanish":
         await message.answer_photo(
             photo=types.FSInputFile(IMAGE_ADMIN),
-            caption="🔍 Bu boʻlimda siz bot haqida savollarga botning yaratuvchilaridan javob olasiz\n📌 ❗ Bot ishlamay qolsa ham shu yerga murojaat qiling. Shuning uchun ham bu botni yoʻqotib qoʻymang\n\n☎️ Pastdagi tugma orqali davom eting",
+            caption="<tg-emoji emoji-id='5258274739041883702'>🔍</tg-emoji> Bu boʻlimda siz bot haqida savollarga botning yaratuvchilaridan javob olasiz\n<tg-emoji emoji-id='5220197908342648622'>❗</tg-emoji> Bot ishlamay qolsa ham shu yerga murojaat qiling. Shuning uchun ham bu botni yoʻqotib qoʻymang\n\n<tg-emoji emoji-id='5258513401784573443'>☎️</tg-emoji> Pastdagi tugma orqali davom eting",
             reply_markup=types.InlineKeyboardMarkup(
                 inline_keyboard=[[types.InlineKeyboardButton(text="☎️ Murojaat", url="https://t.me/HB7410_bot")]]
-            )
+            ),
+            parse_mode="HTML"
         )
 
 # =======================
@@ -144,14 +149,17 @@ async def send_anonymous(message: types.Message, state: FSMContext):
 
     sent = await bot.send_message(
         GROUP_ID,
-        f"📮 #Ishonch_qutisi\n\n💬 {message.text}"
+        f"<tg-emoji emoji-id='5465611167110011949'>📮</tg-emoji> #Ishonch_qutisi\n\n<tg-emoji emoji-id='5438119541009824978'>💬</tg-emoji> {message.text}",
+        parse_mode="HTML"
     )
 
     add_link(sent.message_id, message.from_user.id)
 
     await message.answer(
-        "✅ Xabaringiz yuborildi\n⏳ Maktab javobini kuting",
-        reply_markup=main_menu()
+        "<tg-emoji emoji-id='5893224751119208859'>✅</tg-emoji> Xabaringiz yuborildi\n"
+        "<tg-emoji emoji-id='5258113901106580375'>⏳</tg-emoji> Maktab javobini kuting",
+        reply_markup=main_menu(),
+        parse_mode="HTML"
     )
     await state.clear()
 
@@ -165,8 +173,12 @@ async def admin_reply(message: types.Message):
     user_id = get_user(replied_id)
 
     if user_id:
-        await bot.send_message(user_id, f"📩 Admin javobi:\n\n💬 {message.text}")
-        await message.reply("✅")
+        await bot.send_message(
+            user_id,
+            f"<tg-emoji emoji-id='5467582660178091092'>📩</tg-emoji> Admin javobi:\n\n<tg-emoji emoji-id='5438119541009824978'>💬</tg-emoji> {message.text}",
+            parse_mode="HTML"
+        )
+        await message.reply("<tg-emoji emoji-id='5893224751119208859'>✅</tg-emoji>", parse_mode="HTML")
 
 # =======================
 # FASTAPI (WEBHOOK)
